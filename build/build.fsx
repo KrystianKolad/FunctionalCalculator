@@ -19,7 +19,13 @@ Target.create "Clean" (fun _ ->
 
 Target.create "Build" (fun _ ->
     !! "../src/**/*.*proj"
+    ++ "../tests/**/*.*proj"
     |> Seq.iter (DotNet.build id)
+)
+
+Target.create "Test" (fun _ ->
+    !! "../tests/**/*.*proj"
+    |> Seq.iter (DotNet.test id)
 )
 
 Target.create "Publish" (fun _ ->
@@ -34,6 +40,7 @@ Target.create "All" ignore
 
 "Clean"
   ==> "Build"
+  ==> "Test"
   ==> "Publish"
   ==> "All"
 
